@@ -30,4 +30,4 @@
 <p style="margin-bottom: 5px;">Terlambat: {{ $attendances->where('status', 'Terlambat / Tidak Tepat Waktu')->count() }}
 </p>
 <p style="margin-bottom: 5px;">Tidak Hadir:
-    {{ ($classroom ? $classroom->students->count() : Student::count()) - $attendances->count() }}</p>
+    {{ ($classroom ? $classroom->students->count() : \App\Models\Student::count()) - $attendances->count() }}</p>

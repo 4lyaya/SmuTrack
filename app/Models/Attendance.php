@@ -23,10 +23,12 @@ class Attendance extends Model
     public static function determineStatus($scanTime)
     {
         $scanHour = $scanTime->format('H:i:s');
+        $lateThreshold = '07:00:00'; // Batas waktu terlambat
+        $endOfMorning = '12:00:00';  // Batas akhir waktu absen pagi
 
-        if ($scanHour < '07:00:00') {
+        if ($scanHour < $lateThreshold) {
             return 'Masuk / Tepat Waktu';
-        } elseif ($scanHour >= '07:00:00' && $scanHour < '12:00:00') {
+        } elseif ($scanHour >= $lateThreshold && $scanHour < $endOfMorning) {
             return 'Terlambat / Tidak Tepat Waktu';
         } else {
             return 'Tidak Masuk';

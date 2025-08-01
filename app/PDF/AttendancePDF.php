@@ -56,7 +56,9 @@ class AttendancePDF
 
     protected function footer()
     {
-        return view('attendance.pdf.footer')->render();
+        return view('attendance.pdf.footer', [
+            'date' => $this->date
+        ])->render();
     }
 
     public function download($filename)

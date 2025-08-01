@@ -8,7 +8,7 @@ use App\Models\Teacher;
 use App\Models\Activity;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -18,52 +18,28 @@ class DashboardController extends Controller
         $totalTeachers = Teacher::count();
         $todayAttendances = Attendance::whereDate('scan_time', Carbon::today())->count();
 
-        // Ambil data kehadiran 7 hari terakhir
+        // Get attendance data for last 7 days
         $attendanceData = $this->getLast7DaysAttendance();
 
-        // Ambil data distribusi kelas dari database
-        $classDistribution = Student::select('classroom_id', DB::raw('count(*) as total'))
-            ->with('classroom') // eager loading relasi classroom
-            ->groupBy('classroom_id')
-            ->get();
+        // Get class distribution data
+        $classDistribution = $this->getClassDistribution();
 
-        $chartLabels = [];
-        $chartData = [];
-
-        foreach ($classDistribution as $item) {
-            $chartLabels[] = $item->classroom ? $item->classroom->name : 'Belum Ada Kelas';
-            $chartData[] = $item->total;
-        }
-
-        // Jika tidak ada data, tampilkan pesan
-        if (empty($chartData)) {
-            $chartLabels = ['Belum Ada Data'];
-            $chartData = [0];
-        }
-
-        // Data untuk JavaScript
-        $chartData = [
-            'attendanceData' => $attendanceData,
-            'classDistribution' => [
-                'labels' => $chartLabels,
-                'data' => $chartData
-            ],
-            'totalStudents' => $totalStudents,
-            'totalStudentsFormatted' => number_format($totalStudents)
-        ];
-
+        // Get recent activities
         $activities = Activity::latest()
             ->with('user')
-            ->limit(1)
+            ->limit(5)
             ->get();
 
-        return view('dashboard', compact(
-            'totalStudents',
-            'totalTeachers',
-            'todayAttendances',
-            'chartData',
-            'activities'
-        ));
+        return view('dashboard', [
+            'totalStudents' => $totalStudents,
+            'totalTeachers' => $totalTeachers,
+            'todayAttendances' => $todayAttendances,
+            'chartData' => [
+                'attendanceData' => $attendanceData,
+                'classDistribution' => $classDistribution
+            ],
+            'activities' => $activities
+        ]);
     }
 
     protected function getLast7DaysAttendance()
@@ -76,19 +52,21 @@ class DashboardController extends Controller
         for ($i = 6; $i >= 0; $i--) {
             $date = Carbon::today()->subDays($i);
             $dateString = $date->format('Y-m-d');
-            $dates[] = $date->isoFormat('dddd'); // Nama hari
+            $dates[] = $date->isoFormat('ddd, D MMM'); // Format: Mon, 1 Jan
 
-            $presentData[] = Attendance::whereDate('created_at', $dateString)
-                ->where('status', 'present')
+            // Count attendance statuses for each day
+            $presentData[] = Attendance::whereDate('scan_time', $dateString)
+                ->where('status', 'Masuk / Tepat Waktu')
                 ->count();
 
-            $lateData[] = Attendance::whereDate('created_at', $dateString)
-                ->where('status', 'late')
+            $lateData[] = Attendance::whereDate('scan_time', $dateString)
+                ->where('status', 'Terlambat / Tidak Tepat Waktu')
                 ->count();
 
-            $absentData[] = Attendance::whereDate('created_at', $dateString)
-                ->where('status', 'absent')
-                ->count();
+            // For absent, we need to calculate students who didn't attend
+            $totalStudents = Student::count();
+            $present = $presentData[count($presentData) - 1] + $lateData[count($lateData) - 1];
+            $absentData[] = max(0, $totalStudents - $present); // Ensure not negative
         }
 
         return [
@@ -99,28 +77,50 @@ class DashboardController extends Controller
         ];
     }
 
+    protected function getClassDistribution()
+    {
+        $classDistribution = Student::select('classroom_id', DB::raw('count(*) as total'))
+            ->with('classroom')
+            ->groupBy('classroom_id')
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($classDistribution as $item) {
+            $labels[] = $item->classroom ? $item->classroom->name : 'Belum Ada Kelas';
+            $data[] = $item->total;
+        }
+
+        // If no data, show empty state
+        if (empty($data)) {
+            $labels = ['Belum Ada Data'];
+            $data = [0];
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $data
+        ];
+    }
+
     public function getAttendanceStats(Request $request)
     {
         $period = $request->query('period', 'week');
 
         if ($period === 'month') {
-            // Logika untuk data bulanan
             $data = $this->getLast30DaysAttendance();
         } else {
-            // Logika untuk data mingguan
             $data = $this->getLast7DaysAttendance();
         }
 
         return response()->json($data);
     }
 
-    protected function getClassDistribution()
+    protected function getLast30DaysAttendance()
     {
-        // Contoh data - sesuaikan dengan model dan database Anda
-        // Ini bisa diganti dengan query database yang sesuai
-        // return [
-        //     'labels' => ["TKR", "TBSM", "TKJ", "RPL", "TPFL"],
-        //     'data' => [44, 55, 41, 17, 15]
-        // ];
+        // Similar to getLast7DaysAttendance but for 30 days
+        // Implement as needed
+        return [];
     }
 }

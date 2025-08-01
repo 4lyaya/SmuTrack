@@ -11,21 +11,21 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Super Admin',
+            'name' => 'Akmal Raditya Wijaya',
             'email' => 'superadmin@smutrack.test',
             'password' => Hash::make('password'),
             'role' => 'superadmin',
         ]);
 
         User::create([
-            'name' => 'Admin Sekolah',
+            'name' => 'Fahima Sholatin',
             'email' => 'admin@smutrack.test',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
         User::create([
-            'name' => 'User Biasa',
+            'name' => 'Bagus Kusuma Jayanegara',
             'email' => 'user@smutrack.test',
             'password' => Hash::make('password'),
             'role' => 'user',

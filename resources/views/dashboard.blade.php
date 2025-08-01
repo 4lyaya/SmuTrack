@@ -186,12 +186,13 @@
 
             <!-- Main content area -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
+                <!-- Notification Alerts -->
                 @if (session('success'))
-                    <div class="mb-4 rounded-md bg-green-50 p-4">
-                        <div class="flex">
+                    <div class="mb-4 rounded-lg bg-green-50 p-4 ring-1 ring-green-100">
+                        <div class="flex items-start">
                             <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                         clip-rule="evenodd" />
@@ -205,11 +206,11 @@
                 @endif
 
                 @if (session('error'))
-                    <div class="mb-4 rounded-md bg-red-50 p-4">
-                        <div class="flex">
+                    <div class="mb-4 rounded-lg bg-red-50 p-4 ring-1 ring-red-100">
+                        <div class="flex items-start">
                             <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                                         clip-rule="evenodd" />
@@ -222,37 +223,45 @@
                     </div>
                 @endif
 
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
-                    <div class="text-sm text-gray-500">
-                        <span id="current-date" class="font-medium"></span>
+                <!-- Page Header -->
+                <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+                        <p class="text-sm text-gray-500">Ringkasan statistik dan aktivitas terbaru</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm font-medium text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span id="current-date" class="text-gray-700"></span>
+                        </span>
                     </div>
                 </div>
 
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
                     <!-- Students Card -->
-                    <div
-                        class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-sm p-6 border border-blue-100">
+                    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm font-medium text-blue-600">Total Siswa</p>
-                                <p class="text-3xl font-bold text-gray-800 mt-1">{{ number_format($totalStudents) }}
+                                <p class="text-sm font-medium text-gray-500">Total Siswa</p>
+                                <p class="mt-1 text-3xl font-semibold text-gray-900">{{ number_format($totalStudents) }}
                                 </p>
-                                <p class="text-xs text-blue-500 mt-2">
-                                    <span class="inline-flex items-center">
-                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M12 7a1 1 0 01-1 1H9v1h2a1 1 0 110 2H9v1h2a1 1 0 110 2H9v1a1 1 0 11-2 0v-1H5a1 1 0 110-2h2v-1H5a1 1 0 110-2h2V8H5a1 1 0 010-2h2V5a1 1 0 112 0v1h2a1 1 0 011 1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        {{ rand(5, 15) }}% dari bulan lalu
-                                    </span>
-                                </p>
+                                <div class="mt-2 flex items-center text-sm text-blue-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                    <span class="ml-1">{{ rand(5, 15) }}% dari bulan lalu</span>
+                                </div>
                             </div>
-                            <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="rounded-lg bg-blue-50 p-3 text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
@@ -261,27 +270,24 @@
                     </div>
 
                     <!-- Teachers Card -->
-                    <div
-                        class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-sm p-6 border border-green-100">
+                    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm font-medium text-green-600">Total Guru</p>
-                                <p class="text-3xl font-bold text-gray-800 mt-1">{{ number_format($totalTeachers) }}
+                                <p class="text-sm font-medium text-gray-500">Total Guru</p>
+                                <p class="mt-1 text-3xl font-semibold text-gray-900">{{ number_format($totalTeachers) }}
                                 </p>
-                                <p class="text-xs text-green-500 mt-2">
-                                    <span class="inline-flex items-center">
-                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M12 7a1 1 0 01-1 1H9v1h2a1 1 0 110 2H9v1h2a1 1 0 110 2H9v1a1 1 0 11-2 0v-1H5a1 1 0 110-2h2v-1H5a1 1 0 110-2h2V8H5a1 1 0 010-2h2V5a1 1 0 112 0v1h2a1 1 0 011 1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                        {{ rand(2, 8) }}% dari bulan lalu
-                                    </span>
-                                </p>
+                                <div class="mt-2 flex items-center text-sm text-green-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                    <span class="ml-1">{{ rand(2, 8) }}% dari bulan lalu</span>
+                                </div>
                             </div>
-                            <div class="p-3 rounded-lg bg-green-100 text-green-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="rounded-lg bg-green-50 p-3 text-green-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
@@ -290,31 +296,31 @@
                     </div>
 
                     <!-- Attendance Card -->
-                    <div
-                        class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-sm p-6 border border-purple-100">
+                    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm font-medium text-purple-600">Kehadiran Hari Ini</p>
-                                <p class="text-3xl font-bold text-gray-800 mt-1">
-                                    {{ number_format($todayAttendances) }}</p>
-                                <p class="text-xs text-purple-500 mt-2">
-                                    <span class="inline-flex items-center">
-                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M12 7a1 1 0 01-1 1H9v1h2a1 1 0 110 2H9v1h2a1 1 0 110 2H9v1a1 1 0 11-2 0v-1H5a1 1 0 110-2h2v-1H5a1 1 0 110-2h2V8H5a1 1 0 010-2h2V5a1 1 0 112 0v1h2a1 1 0 011 1z"
-                                                clip-rule="evenodd" />
-                                        </svg>
+                                <p class="text-sm font-medium text-gray-500">Kehadiran Hari Ini</p>
+                                <p class="mt-1 text-3xl font-semibold text-gray-900">
+                                    {{ number_format($todayAttendances) }}
+                                </p>
+                                <div class="mt-2 flex items-center text-sm text-purple-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    <span class="ml-1">
                                         @if ($totalStudents > 0)
                                             {{ round(($todayAttendances / $totalStudents) * 100) }}% tingkat kehadiran
                                         @else
                                             0% tingkat kehadiran
                                         @endif
                                     </span>
-                                </p>
+                                </div>
                             </div>
-                            <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="rounded-lg bg-purple-50 p-3 text-purple-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                 </svg>
@@ -324,263 +330,297 @@
                 </div>
 
                 <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 gap-6 mb-8 lg:grid-cols-2">
                     <!-- Attendance Chart -->
-                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-lg font-semibold text-gray-800">Statistik Kehadiran 7 Hari Terakhir</h2>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-xs bg-blue-50 text-blue-600 rounded-full">Minggu
+                    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                        <div class="flex flex-col justify-between sm:flex-row sm:items-center">
+                            <h2 class="text-lg font-semibold text-gray-900">Statistik Kehadiran 7 Hari Terakhir</h2>
+                            <div class="mt-2 flex gap-2 sm:mt-0">
+                                <button
+                                    class="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">Minggu
                                     ini</button>
-                                <button class="px-3 py-1 text-xs bg-gray-50 text-gray-600 rounded-full">Bulan
+                                <button
+                                    class="rounded-full bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600">Bulan
                                     ini</button>
                             </div>
                         </div>
-                        <div id="attendanceChart" class="mt-4"></div>
+                        <div class="mt-4 h-80">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
                     </div>
 
-                    <!-- Class Distribution -->
-                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Distribusi Kelas</h2>
-                        <div id="classDistributionChart" class="mt-4"></div>
+                    <!-- Class Distribution Chart -->
+                    <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                        <h2 class="text-lg font-semibold text-gray-900">Distribusi Kelas</h2>
+                        <div class="mt-4 h-80">
+                            <canvas id="classDistributionChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Aktivitas Terkini</h2>
-                    <div class="space-y-4">
+                <div class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-semibold text-gray-900">Aktivitas Terkini</h2>
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800">Lihat Semua</a>
+                    </div>
+
+                    <div class="mt-4 space-y-4">
                         @forelse ($activities as $activity)
-                            <div class="flex items-start pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                                <div class="p-2 rounded-lg bg-blue-50 text-blue-600 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
+                            <div class="flex items-start gap-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0">
+                                <div class="flex-shrink-0">
+                                    <div
+                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-800">{{ $activity->description }}</p>
-                                    <p class="text-xs text-gray-500 mt-1">{{ $activity->created_at->diffForHumans() }}
-                                    </p>
-                                    @if ($activity->user)
-                                        <p class="text-xs text-gray-500 mt-1">Oleh: {{ $activity->user->name }}</p>
-                                    @endif
+                                    <p class="text-sm font-medium text-gray-900">{{ $activity->description }}</p>
+                                    <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                                        <span>{{ $activity->created_at->diffForHumans() }}</span>
+                                        <span class="h-1 w-1 rounded-full bg-gray-300"></span>
+                                        <span>Oleh: {{ $activity->user->name ?? 'System' }}</span>
+                                    </div>
                                 </div>
-                                <span class="text-xs px-2 py-1 bg-gray-50 text-gray-500 rounded-full">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600">
                                     {{ ucfirst(str_replace('_', ' ', $activity->type)) }}
                                 </span>
                             </div>
                         @empty
-                            <p class="text-sm text-gray-500">Tidak ada aktivitas terakhir</p>
+                            <div class="flex flex-col items-center justify-center py-8 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="mt-2 text-sm text-gray-500">Tidak ada aktivitas terakhir</p>
+                            </div>
                         @endforelse
                     </div>
                 </div>
             </main>
+
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
     <script>
-        // Function to update real-time clock
-        function updateRealTimeClock() {
-            const options = {
-                timeZone: 'Asia/Jakarta',
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            };
-
-            const now = new Date();
-            const formatter = new Intl.DateTimeFormat('id-ID', options);
-            const formattedDate = formatter.format(now);
-
-            document.getElementById('real-time-clock').textContent = formattedDate;
-        }
-
-        // Update clock immediately and then every second
-        updateRealTimeClock();
-        setInterval(updateRealTimeClock, 1000);
-
-        // Initialize dashboard charts when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set current date
+        // Set current date
+        document.addEventListener('DOMContentLoaded', function () {
             const dateOptions = {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             };
-            document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID',
-                dateOptions);
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', dateOptions);
 
-            // Inisialisasi Attendance Chart jika elemen ada
-            if (document.querySelector("#attendanceChart")) {
-                // Debug data yang diterima
-                console.log('Attendance Data:', {
-                    present: @json($chartData['attendanceData']['present']),
-                    late: @json($chartData['attendanceData']['late']),
-                    absent: @json($chartData['attendanceData']['absent']),
-                    dates: @json($chartData['attendanceData']['dates'])
-                });
+            // Initialize charts
+            initializeCharts();
+        });
 
-                // Pastikan data valid sebelum render chart
-                const presentData = @json($chartData['attendanceData']['present']) || [];
-                const lateData = @json($chartData['attendanceData']['late']) || [];
-                const absentData = @json($chartData['attendanceData']['absent']) || [];
-                const dateLabels = @json($chartData['attendanceData']['dates']) || [];
+        function initializeCharts() {
+            // Attendance Chart Data
+            const attendanceData = {
+                labels: {!! json_encode($chartData['attendanceData']['dates']) !!},
+                datasets: [
+                    {
+                        label: 'Hadir',
+                        data: {!! json_encode($chartData['attendanceData']['present']) !!},
+                        backgroundColor: '#3b82f6',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.8
+                    },
+                    {
+                        label: 'Terlambat',
+                        data: {!! json_encode($chartData['attendanceData']['late']) !!},
+                        backgroundColor: '#f59e0b',
+                        borderColor: '#f59e0b',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.8
+                    },
+                    {
+                        label: 'Tidak Hadir',
+                        data: {!! json_encode($chartData['attendanceData']['absent']) !!},
+                        backgroundColor: '#ef4444',
+                        borderColor: '#ef4444',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.8
+                    }
+                ]
+            };
 
-                // Validasi data
-                if (presentData.length === 0 && lateData.length === 0 && absentData.length === 0) {
-                    document.querySelector("#attendanceChart").innerHTML = `
-                    <div class="flex items-center justify-center h-64">
-                        <p class="text-gray-500">Tidak ada data kehadiran untuk ditampilkan</p>
-                    </div>
-                    `;
-                    return;
-                }
-
-                const options = {
-                    chart: {
-                        type: 'bar',
-                        height: 300,
-                        toolbar: {
-                            show: false
-                        },
-                        animations: {
-                            enabled: true
-                        }
-                    },
-                    series: [{
-                            name: 'Hadir',
-                            data: presentData
-                        },
-                        {
-                            name: 'Terlambat',
-                            data: lateData
-                        },
-                        {
-                            name: 'Tidak Hadir',
-                            data: absentData
-                        }
-                    ],
-                    xaxis: {
-                        categories: dateLabels,
-                        labels: {
-                            style: {
-                                colors: '#6b7280'
-                            }
-                        }
-                    },
-                    yaxis: {
-                        labels: {
-                            formatter: function(val) {
-                                return Math.round(val);
-                            }
-                        }
-                    },
-                    colors: ['#3b82f6', '#f59e0b', '#ef4444'],
-                    plotOptions: {
-                        bar: {
-                            horizontal: false,
-                            columnWidth: '55%',
-                            endingShape: 'rounded',
-                            borderRadius: 4,
-                            dataLabels: {
-                                position: 'top'
-                            }
-                        }
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        show: true,
-                        width: 2,
-                        colors: ['transparent']
-                    },
-                    fill: {
-                        opacity: 1
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function(val) {
-                                return val + " siswa";
-                            }
-                        }
-                    },
+            // Attendance Chart Options
+            const attendanceOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
                     legend: {
                         position: 'top',
-                        horizontalAlign: 'right',
-                        markers: {
-                            radius: 12
-                        }
-                    },
-                    responsive: [{
-                        breakpoint: 600,
-                        options: {
-                            plotOptions: {
-                                bar: {
-                                    columnWidth: '70%'
-                                }
-                            },
-                            legend: {
-                                position: 'bottom'
+                        align: 'end',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                family: 'Inter, sans-serif'
                             }
                         }
-                    }]
-                };
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.dataset.label}: ${context.raw} siswa`;
+                            }
+                        },
+                        backgroundColor: '#1f2937',
+                        titleFont: {
+                            family: 'Inter, sans-serif'
+                        },
+                        bodyFont: {
+                            family: 'Inter, sans-serif'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            font: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f3f4f6',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            precision: 0,
+                            font: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    }
+                }
+            };
 
-                const chart = new ApexCharts(document.querySelector("#attendanceChart"), options);
-                chart.render();
+            // Initialize Attendance Chart
+            const attendanceCtx = document.getElementById('attendanceChart');
+            if (attendanceCtx) {
+                new Chart(attendanceCtx, {
+                    type: 'bar',
+                    data: attendanceData,
+                    options: attendanceOptions
+                });
             }
 
-            // Inisialisasi Class Distribution Chart jika elemen ada
-            if (document.querySelector("#classDistributionChart")) {
-                const classDistributionChart = new ApexCharts(document.querySelector("#classDistributionChart"), {
-                    chart: {
-                        type: 'donut',
-                        height: 300,
-                        toolbar: {
-                            show: false
-                        }
-                    },
-                    series: @json($chartData['classDistribution']['data']),
-                    labels: @json($chartData['classDistribution']['labels']),
-                    colors: ['#3b82f6', '#10b981', '#f59e0b', '#6366f1', '#ec4899'],
-                    plotOptions: {
-                        pie: {
-                            donut: {
-                                size: '65%',
-                                labels: {
-                                    show: true,
-                                    total: {
-                                        show: true,
-                                        label: 'Total Siswa',
-                                        formatter: () => '{{ number_format($totalStudents) }}'
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
+            // Class Distribution Chart Data
+            const classDistributionData = {
+                labels: {!! json_encode($chartData['classDistribution']['labels']) !!},
+                datasets: [{
+                    data: {!! json_encode($chartData['classDistribution']['data']) !!},
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#10b981',
+                        '#f59e0b',
+                        '#6366f1',
+                        '#ec4899',
+                        '#14b8a6',
+                        '#f97316',
+                        '#8b5cf6',
+                        '#06b6d4'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            };
+
+            // Class Distribution Chart Options
+            const classDistributionOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
                     legend: {
                         position: 'right',
-                        offsetY: 0,
-                        height: 230,
+                        labels: {
+                            boxWidth: 12,
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                family: 'Inter, sans-serif'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.raw;
+                                const percentage = Math.round((value / total) * 100);
+                                return `${context.label}: ${value} siswa (${percentage}%)`;
+                            }
+                        },
+                        backgroundColor: '#1f2937',
+                        titleFont: {
+                            family: 'Inter, sans-serif'
+                        },
+                        bodyFont: {
+                            family: 'Inter, sans-serif'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: `Total Siswa: {{ number_format($totalStudents) }}`,
+                        position: 'bottom',
+                        font: {
+                            family: 'Inter, sans-serif',
+                            weight: 'normal',
+                            size: 14
+                        },
+                        padding: {
+                            top: 20
+                        }
                     }
+                }
+            };
+
+            // Initialize Class Distribution Chart
+            const classDistCtx = document.getElementById('classDistributionChart');
+            if (classDistCtx) {
+                new Chart(classDistCtx, {
+                    type: 'doughnut',
+                    data: classDistributionData,
+                    options: classDistributionOptions
                 });
-                classDistributionChart.render();
             }
-        });
+        }
     </script>
+
 </body>
 
 </html>
